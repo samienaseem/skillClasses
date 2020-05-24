@@ -1,8 +1,13 @@
 package com.learning.skilclasses.activities;
 
-import android.content.Context;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,10 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
-
 import com.learning.skilclasses.R;
 import com.squareup.picasso.Picasso;
 
@@ -27,11 +28,8 @@ import org.json.JSONObject;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+public class TestPaperResult extends AppCompatActivity {
 
-public class ResultActivity extends AppCompatActivity {
     LinkedHashMap<JSONObject, String> result;
     LinearLayout linearLayout;
     String context;
@@ -47,7 +45,7 @@ public class ResultActivity extends AppCompatActivity {
 
     @OnClick(R.id.again)
     void setPlay_again() {
-        Intent intent=new Intent(this, QuizActivity.class);
+        Intent intent=new Intent(this, TestpaperActivity.class);
         intent.putExtra("papername",papername);
         startActivity(intent);
         finish();
@@ -57,7 +55,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
+        setContentView(R.layout.activity_test_paper_result);
         userScore = getIntent().getStringExtra("score");
         papername=getIntent().getStringExtra("papername");
         context=getIntent().getStringExtra("context");
@@ -88,7 +86,7 @@ public class ResultActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
         scoreProgress.setProgress(Integer.parseInt(userScore));
-        result = QuizActivity.arrayList;
+        result = TestpaperActivity.arrayList;
 //        linearLayout = findViewById(R.id.main_layout);
         score = findViewById(R.id.result);
         LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -116,16 +114,16 @@ public class ResultActivity extends AppCompatActivity {
                 questionText.setTextColor(getResources().getColor(R.color.incorrect));
                 linearLayout1.addView(questionText);
 
-                 if(!text_question.isEmpty()) {
-                     TextView text_view = new TextView(this);
-                     text_view.setTypeface(typeface, Typeface.BOLD);
-                     text_view.setTextSize(14);
-                     text_view.setText(text_question);
-                     linearLayout1.addView(text_view);
-                 }
+                if(!text_question.isEmpty()) {
+                    TextView text_view = new TextView(this);
+                    text_view.setTypeface(typeface, Typeface.BOLD);
+                    text_view.setTextSize(14);
+                    text_view.setText(text_question);
+                    linearLayout1.addView(text_view);
+                }
                 if(!img_question.isEmpty()) {
                     ImageView img_view = new ImageView(this);
-                   img_view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    img_view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
                     Picasso.get().load("http://www.digitalcatnyx.store/Coaching/admin/uploads/mcq/"+img_question).into(img_view);
                     linearLayout1.addView(img_view);
                 }
@@ -190,7 +188,7 @@ public class ResultActivity extends AppCompatActivity {
                     }
                 }
 
-              linearLayout.addView(linearLayout1);
+                linearLayout.addView(linearLayout1);
 
             }
             catch (JSONException ex){

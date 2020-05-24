@@ -3,11 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.learning.skilclasses">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
@@ -19,12 +14,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
+        <activity android:name=".activities.TestPaperResult"></activity>
+        <activity android:name=".activities.TestpaperActivity" />
+        <activity android:name=".activities.TestActivty" />
         <activity
             android:name=".activities.ViewAnswerActivity"
-            android:screenOrientation="portrait"></activity>
-
-
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SubCategoryActivity"
             android:screenOrientation="portrait" />
@@ -42,6 +37,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -65,7 +61,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.MainActivity"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"/>
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
             android:name=".activities.ProfileActivity"
             android:screenOrientation="portrait" />
@@ -73,6 +69,9 @@
             android:name=".activities.CoursesActivity"
             android:screenOrientation="portrait" />
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -83,10 +82,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
         </provider>
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

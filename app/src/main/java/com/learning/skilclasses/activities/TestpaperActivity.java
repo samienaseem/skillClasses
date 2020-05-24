@@ -50,9 +50,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class QuizActivity extends AppCompatActivity {
-    /* FirebaseDatabase firebaseDatabase, firebaseDatabase1;
-     DatabaseReference databaseReference, databaseReference1;*/
+public class TestpaperActivity extends AppCompatActivity {
+
     static LinkedHashMap<JSONObject, String> arrayList;
     public static final String url = "http://www.digitalcatnyx.store/api/mcqquestion.php";
     JSONArray jsonArray;
@@ -68,13 +67,11 @@ public class QuizActivity extends AppCompatActivity {
     Exam examination;
     Button submit;
     String date,b;
-    ProgressDialog progressDialog;
     UserSession userSession;
+    ProgressDialog progressDialog;
     boolean isFinished = false;
     int score = 0, counter = 0;
-    CountDownTimer counttimer;
-
-
+    CountDownTimer tmr;
 
     LinearLayout layoutOp1, layoutOp2, layoutOp3, layoutOp4;
     ImageView imgQ, imgOp1, imgOp2, imgOp3, imgOp4;
@@ -82,7 +79,6 @@ public class QuizActivity extends AppCompatActivity {
     String text_option1, text_option2, text_option3, text_option4, text_question, img_op1, img_op2, img_op3, img_op4, img_question;
     String id, category, subcategory;
     String q_class;
-    int qtime;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -91,16 +87,13 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz);
+        setContentView(R.layout.activity_testpaper);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Online Quiz Skil Classes");
 
-         b=getIntent().getStringExtra("papername");
+        b=getIntent().getStringExtra("papername");
         userSession=new UserSession(getApplicationContext());
-
-
-        //Toast.makeText(getApplicationContext(),userSession.getUserDetails().get(UserSession.KEY_SUBCATEGORY),Toast.LENGTH_LONG).show();
 
         arrayList = new LinkedHashMap<>();
         vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -269,23 +262,8 @@ public class QuizActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-        submit.setOnClickListener(v -> {
-            move();
-        });
-        date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-
-    }
-    public void CoundownTimer(int timer){
-
-        if (counttimer!=null){
-            counttimer.cancel();
-        }
-
-        counttimer=new CountDownTimer(timer*1000, 1000) {
+        //timer**********************************************************
+         tmr=new CountDownTimer(200000, 1000) {
             @Override
             public void onTick(long l) {
                 int pro = (int) l / 1000;
@@ -295,24 +273,18 @@ public class QuizActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                if (questions==jsonArray.length()){
                 layoutOp1.setEnabled(false);
                 layoutOp2.setEnabled(false);
                 layoutOp3.setEnabled(false);
                 layoutOp4.setEnabled(false);
-                    Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-                    intent.putExtra("score", score + "");
-                    intent.putExtra("papername",b);
-                    startActivity(intent);
-                    finish();
-                }
-                else{
-                    counter=counter+1;
-                    setQuiz(counter);
-                }
             }
 
         }.start();
+
+        submit.setOnClickListener(v -> {
+            move();
+        });
+        date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
     }
 
@@ -321,7 +293,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    //Toast.makeText(getApplicationContext(),"json"+response,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"json"+response,Toast.LENGTH_LONG).show();
                     jsonArray = new JSONArray(response);
                     progressDialog.dismiss();
                     setQuiz(counter);
@@ -334,8 +306,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("ERROR_RESPONSE", "" + error.getMessage());
             }
-        }
-        ){
+        }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
@@ -343,7 +314,7 @@ public class QuizActivity extends AppCompatActivity {
                 params.put("class", userSession.getUserDetails().get(UserSession.KEY_CATEGORY));
                 params.put("category", userSession.getUserDetails().get(UserSession.KEY_SUBCATEGORY));
                 params.put("test_name",b);
-                params.put("test_type","testmcq");
+                params.put("test_type","testseries");
 
                 return params;
             }
@@ -351,7 +322,7 @@ public class QuizActivity extends AppCompatActivity {
 
 
         };
-        //stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(stringRequest);
     }
@@ -359,13 +330,13 @@ public class QuizActivity extends AppCompatActivity {
     private void setQuiz(int counter) {
         //Toast.makeText(getApplicationContext(),"json"+jsonArray.length(),Toast.LENGTH_LONG).show();
         new Handler().postDelayed(() -> {
-            layoutOp1.setBackground(getResources().getDrawable(R.drawable.doubt_background));
-            layoutOp2.setBackground(getResources().getDrawable(R.drawable.doubt_background));
-            layoutOp3.setBackground(getResources().getDrawable(R.drawable.doubt_background));
-            layoutOp4.setBackground(getResources().getDrawable(R.drawable.doubt_background));
+            layoutOp1.setBackgroundColor(Color.WHITE);
+            layoutOp2.setBackgroundColor(Color.WHITE);
+            layoutOp3.setBackgroundColor(Color.WHITE);
+            layoutOp4.setBackgroundColor(Color.WHITE);
             //Toast.makeText(getApplicationContext(),"json"+jsonArray.length(),Toast.LENGTH_LONG).show();
             if (counter < jsonArray.length()) {
-            //    Toast.makeText(getApplicationContext(),"json"+jsonArray.length(),Toast.LENGTH_LONG).show();
+                //    Toast.makeText(getApplicationContext(),"json"+jsonArray.length(),Toast.LENGTH_LONG).show();
                 imgOp1.setVisibility(View.GONE);
                 imgOp2.setVisibility(View.GONE);
                 imgOp3.setVisibility(View.GONE);
@@ -395,14 +366,11 @@ public class QuizActivity extends AppCompatActivity {
                     subcategory = object.getString("subcategory");
                     text_question = object.getString("question");
                     img_question = object.getString("question_img");
-                    qtime=Integer.parseInt(object.getString("test_time"));
-                    //Toast.makeText(getApplicationContext(),"ss"+qtime,Toast.LENGTH_LONG).show();
                     arrayList.put(object, answer);
 
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                 }
-                CoundownTimer(qtime);
                 questions++;
                 if (questions < 10) {
                     questionNo.setText("0" + questions);
@@ -464,7 +432,7 @@ public class QuizActivity extends AppCompatActivity {
                 }
 
             } else {
-                Toast.makeText(QuizActivity.this, "Question is finished", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestpaperActivity.this, "Question is finished", Toast.LENGTH_SHORT).show();
                 return;
             }
         }, 1000);
@@ -477,7 +445,6 @@ public class QuizActivity extends AppCompatActivity {
         alertDialog.setMessage("Do you want to exit the quiz");
         alertDialog.setPositiveButton("Yes", (d, i) -> {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            counttimer.cancel();
             finish();
         }).setNegativeButton("No", (d, i) -> d.cancel());
         alertDialog.show();
@@ -498,11 +465,11 @@ public class QuizActivity extends AppCompatActivity {
 
     public void move() {
         // uploadResult();
-        counttimer.cancel();
-        Intent intent = new Intent(this, ResultActivity.class);
+        tmr.cancel();
+        Intent intent = new Intent(this, TestPaperResult.class);
         intent.putExtra("score", score + "");
         intent.putExtra("papername",b);
-        intent.putExtra("context", "QuizActivity");
+        intent.putExtra("context", "TestpaperActivity");
         startActivity(intent);
         finish();
     }

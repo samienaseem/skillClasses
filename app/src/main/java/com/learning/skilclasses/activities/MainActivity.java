@@ -8,6 +8,9 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private OkHttpClient okHttpClient;
     private HashMap<String, String> userDetails;
     private GoogleSignInOptions gso;
+    /*String[] type= { "MCQ Question", "TEST SERIES"};
+
+    Spinner spinner;*/
 
     @BindView(R.id.bottomBar)
     SmoothBottomBar bottomBar;
@@ -81,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame_layout, new HomeFragment());
         fragmentTransaction.commit();
+        /*spinner= (Spinner) bottomNavigationView.getMenu().findItem(R.id.quiz).getActionView();
+        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,type));*/
+
         bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public boolean onItemSelect(int i) {
@@ -102,6 +111,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         fragmentTransaction4.commit();
                         break;
                     case 3:
+
+                        /*PopupMenu popupMenu=new PopupMenu(MainActivity.this,bottomBar);
+                        popupMenu.getMenuInflater().inflate(R.menu.test_type, popupMenu.getMenu());
+
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            public boolean onMenuItemClick(MenuItem item) {
+                                Toast.makeText(MainActivity.this,"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                                return true;
+                            }
+                        });
+
+                        popupMenu.show();*///showing popup menu
                         FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction2.replace(R.id.frame_layout, new QuizFragment());
                         fragmentTransaction2.commit();
@@ -118,6 +139,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomBar.setOnItemReselectedListener(new OnItemReselectedListener() {
             @Override
             public void onItemReselect(int i) {
+                /*if (i==3){
+                    PopupMenu popupMenu=new PopupMenu(MainActivity.this,bottomBar.);
+                    popupMenu.getMenuInflater().inflate(R.menu.test_type, popupMenu.getMenu());
+
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            Toast.makeText(MainActivity.this,"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                    });
+
+                    popupMenu.show();
+                }*/
 
             }
         });
@@ -197,6 +231,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.logout:
                 signOut();
                 break;
+            case R.id.Test_Item:
+                Intent intent1 = new Intent(MainActivity.this, TestActivty.class);
+                startActivity(intent1);
+                break;
+
         }
         return true;
     }
